@@ -17,7 +17,7 @@ function make_code(length){
 }
 
 function get_main_menu_selection(){
-
+    
 }
 
 function init() {
