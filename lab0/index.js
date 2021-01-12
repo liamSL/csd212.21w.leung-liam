@@ -23,7 +23,7 @@ function get_main_menu_selection(){
     console.log("(p) Play a game")
     console.log("(q) Quit")
 
-    response = input("")
+    let response = input("")
 
     if (response == "i"){
         print_instructions()
@@ -35,6 +35,7 @@ function get_main_menu_selection(){
 
     else if (console.log (response == "q")){
         console.log("Ok bye!")
+        System.exit(0)
     }
 
     else{
