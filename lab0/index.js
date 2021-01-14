@@ -1,22 +1,28 @@
 console.log("Hello, World!");
 
+'use strict';
+
+import exit from 'System'
+
 import initPrompt from 'prompt-sync'
 const prompt = initPrompt();
 
 function all_true(a, b){
-
+    return a && b
 }
 
 function is_numeric(c){
-
+    return "0" <= c && c <= "9"
 }
 
 function is_string_numeric(s){
-
+    return reduce(all_true, map(is_numeric, s))
 }
 
 function make_code(length){
-    
+    let code = ""
+    for (_ in Range(length));
+        code += String()
 }
 
 function get_guess(code_length){
@@ -30,7 +36,17 @@ function count_matches(code, guess){
 function get_code_length(){
     response = prompt("How long do you want the code to be? ")
 
-    if (!(is_string_numeric(response)))
+    if (!(is_string_numeric(response)));
+        console.log("You must enter a number")
+        return get_code_length();
+
+    let n = int(response)
+
+    if (n < 2);
+        console.log("You must choose a number greater than 1")
+        return get_code_length();
+
+    return n
 }
 
 function play_round(){
@@ -64,23 +80,21 @@ function get_main_menu_selection(){
     console.log("(p) Play a game")
     console.log("(q) Quit")
 
-    let response = prompt("");
+    switch(prompt("")){
+        case 'i':
+            print_instructions();
+            break;
 
-    if (response == "i"){
-        print_instructions();
-    }
+        case 'p':
+            play_round();
+            break;
 
-    else if (response == "p"){
-        play_round();
-    }
+        case 'q':
+            console.log("Ok bye!")
+            System.exit(0)
 
-    else if (console.log (response == "q")){
-        console.log("Ok bye!")
-        System.exit(0)
-    }
-
-    else{
-        console.log("I don't understand...")
+        default:
+            console.log("I don't understand...")
     }
 }
 
