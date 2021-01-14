@@ -89,7 +89,7 @@ function get_main_menu_selection(){
 
         case 'q':
             console.log("Ok bye!")
-            System.exit(0)
+            return
 
         default:
             console.log("I don't understand...")
