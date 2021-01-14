@@ -2,8 +2,6 @@ console.log("Hello, World!");
 
 'use strict';
 
-import exit from 'System'
-
 import initPrompt from 'prompt-sync'
 const prompt = initPrompt();
 
