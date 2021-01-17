@@ -6,49 +6,87 @@ import initPrompt from 'prompt-sync'
 const prompt = initPrompt();
 
 function all_true(a, b){
-    return a && b
+    return a && b;
 }
 
 function is_numeric(c){
-    return "0" <= c && c <= "9"
+    return "0" <= c && c <= "9";
 }
 
 function is_string_numeric(s){
-    return reduce(all_true, map(is_numeric, s))
+    return reduce(all_true, map(is_numeric, s));
 }
 
 function make_code(length){
-    let code = ""
-    for (_ in Range(length));
-        code += String(Math.floor(Math.random(0, 9)*10))
+    let code = "";
+    for (_ in Range(length)){
+        code += String(Math.floor(Math.random(0, 9)*10));}
 }
 
 function get_guess(code_length){
+    let guess = prompt("Guess the code: ");
 
+    if (String.length(guess) != code_length){
+        console.log(String.format("You must enter %s numbers",code_length));}
+
+    if (!is_string_numeric(guess)){
+        console.log("The code may contain only numbers");
+        return get_guess(code_length);}
 }
 
 function count_matches(code, guess){
+    code_numbers = Array(code);
+    guess_numbers = Array(guess);
 
+    num_matches = 0;
+    num_semi_matches = 0;
+
+    for(i in Range(length(code_numbers))){
+        if (code_numbers[i] == guess_numbers[i]){
+            code_numbersi[i] = "-";
+            guess_numbers[i] = "-";
+            num_matches += 1;}
+    }
+
+    for(g in guess_numbers){
+        if (g == "-"){
+            continue;}
+    }
+
+    for(i in Range(length(code_numbers))){
+        c = code_numbers[i];
+
+        if (c == "-"){
+            continue;
+        }
+        
+        if (g == c){
+            code_numbers[i] = "-";
+            num_semi_matches += 1;
+            break;
+        }
+    return (num_matches, num_semi_matches);
+    }
 }
 
 function get_code_length(){
-    response = prompt("How long do you want the code to be? ")
+    response = prompt("How long do you want the code to be? ");
 
-    if (!(is_string_numeric(response)));
-        console.log("You must enter a number")
-        return get_code_length();
+    if (!(is_string_numeric(response))){
+        console.log("You must enter a number");
+        return get_code_length();}
 
-    let n = int(response)
+    let n = int(response);
 
-    if (n < 2);
-        console.log("You must choose a number greater than 1")
-        return get_code_length();
+    if (n < 2){
+        console.log("You must choose a number greater than 1");
+        return get_code_length();}
 
-    return n
+    return n;
 }
 
 function play_round(){
-
+    code_length = get_code_length()
 }
 
 function get_history_path(){
@@ -72,11 +110,11 @@ function print_instructions(){
 }
 
 function get_main_menu_selection(){
-    console.log()
-    console.log("What do you want to do")
-    console.log("(i) Show Instructions")
-    console.log("(p) Play a game")
-    console.log("(q) Quit")
+    console.log();
+    console.log("What do you want to do");
+    console.log("(i) Show Instructions");
+    console.log("(p) Play a game");
+    console.log("(q) Quit");
 
     switch(prompt("")){
         case 'i':
