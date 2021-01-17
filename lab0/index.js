@@ -43,9 +43,9 @@ function count_matches(code, guess){
 
     for(i in Range(length(code_numbers))){
         if (code_numbers[i] == guess_numbers[i]){
-            code_numbersi[i] = "-";
-            guess_numbers[i] = "-";
-            num_matches += 1;}
+             code_numbers[i] = "-";
+             guess_numbers[i] = "-";
+             num_matches += 1;}
     }
 
     for(g in guess_numbers){
@@ -54,7 +54,7 @@ function count_matches(code, guess){
     }
 
     for(i in Range(length(code_numbers))){
-        c = code_numbers[i];
+        let c = code_numbers[i];
 
         if (c == "-"){
             continue;
@@ -86,7 +86,16 @@ function get_code_length(){
 }
 
 function play_round(){
-    code_length = get_code_length()
+    code_length = get_code_length();
+
+    history = load_history();
+    if (code_length in history){
+        let (num_games, best, average) = history[code_length];
+        console.log(String.format("The number of times you have tried codes of length %1$x is %2$x. Your average and best number of guesses are %3$x and %$4x, respectively.", code_length, num_games, average, best));
+    }
+    else{
+        console.log(String.format("This is your first time trying a code of length %x", code_length))
+    }
 }
 
 function get_history_path(){
