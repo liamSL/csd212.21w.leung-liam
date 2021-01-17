@@ -1,6 +1,6 @@
 console.log("Hello, World!");
 
-'use strict';
+"use strict";
 
 import initPrompt from 'prompt-sync'
 const prompt = initPrompt();
@@ -20,7 +20,7 @@ function is_string_numeric(s){
 function make_code(length){
     let code = ""
     for (_ in Range(length));
-        code += String()
+        code += String(Math.floor(Math.random(0, 9)*10))
 }
 
 function get_guess(code_length){
