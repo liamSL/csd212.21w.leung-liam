@@ -27,7 +27,7 @@ function make_code(length){
 function get_guess(code_length){
     let guess = prompt("Guess the code: ");
 
-    if (String.length(guess) != code_length){
+    if (guess.length != code_length){
         console.log("You must enter ${code_length} numbers");}
 
     if (!is_string_numeric(guess)){
@@ -42,7 +42,7 @@ function count_matches(code, guess){
     num_matches = 0;
     num_semi_matches = 0;
 
-    for(i in Range(length(code_numbers))){
+    for(const i of Array(code_numbers.length).keys()){
         if (code_numbers[i] == guess_numbers[i]){
              code_numbers[i] = "-";
              guess_numbers[i] = "-";
