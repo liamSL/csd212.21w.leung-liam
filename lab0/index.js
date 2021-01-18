@@ -28,7 +28,7 @@ function get_guess(code_length){
     let guess = prompt("Guess the code: ");
 
     if (String.length(guess) != code_length){
-        console.log(String.format("You must enter %s numbers",code_length));}
+        console.log("You must enter ${code_length} numbers");}
 
     if (!is_string_numeric(guess)){
         console.log("The code may contain only numbers");
@@ -92,10 +92,10 @@ function play_round(){
     history = load_history();
     if (code_length in history){
         let (num_games, best, average) = history[code_length];
-        console.log(String.format("The number of times you have tried codes of length %1$x is %2$x. Your average and best number of guesses are %3$x and %$4x, respectively.", code_length, num_games, average, best));
+        console.log("The number of times you have tried codes of length ${code_length} is ${num_games}. Your average and best number of guesses are ${average} and ${best} respectively.");
     }
     else{
-        console.log(String.format("This is your first time trying a code of length %x", code_length))
+        console.log("This is your first time trying a code of length ${code_length}");
     }
 }
 
