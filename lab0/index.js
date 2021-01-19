@@ -15,7 +15,7 @@ function is_numeric(c){
 
 function is_string_numeric(s){
      s = Array.from(s);
-    return s.reduce(all_true => s.map(n => is_numeric(s)));
+    return s.reduce(all_true, s.map(n => is_numeric(s)));
 }
 
 function make_code(length){
@@ -96,6 +96,23 @@ function play_round(){
     }
     else{
         console.log(`This is your first time trying a code of length ${code_length}`);
+    }
+    let code = Make_code(code_length);
+    let num_guesses = 0;
+
+    while(true){
+        num_guesses += 1;
+        guess = get_guess(code_length);
+
+        if (guess === code){
+            console.log(`You craked the code! Number of guesses: ${num_guesses}`);
+            update_history(history, code_length, num_guesses);
+            return;
+        }
+        else{
+            (num_matches, num_semi_matches) = count_matches(code, guess);
+            console.log("★"*num_matches + "☆"*num_semi_matches + "-"*(code_length-num_matches-num_semi_matches));
+        }
     }
 }
 
