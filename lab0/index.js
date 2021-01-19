@@ -14,8 +14,8 @@ function is_numeric(c){
 }
 
 function is_string_numeric(s){
-     s = Array.form(s);
-    return s.reduce(all_true, s.map(n => is_numeric(s)));
+     s = s.split();
+    return s.reduce(all_true => s.map(n => is_numeric(s)));
 }
 
 function make_code(length){
@@ -36,8 +36,8 @@ function get_guess(code_length){
 }
 
 function count_matches(code, guess){
-    code_numbers = Array.form(code);
-    guess_numbers = Array.form(guess);
+    code_numbers = code.split();
+    guess_numbers = guess.split();
 
     num_matches = 0;
     num_semi_matches = 0;
@@ -50,18 +50,18 @@ function count_matches(code, guess){
     }
 
     for(g in guess_numbers){
-        if (g == "-"){
+        if (g === "-"){
             continue;}
     }
 
     for(i in Range(length(code_numbers))){
         let c = code_numbers[i];
 
-        if (c == "-"){
+        if (c === "-"){
             continue;
         }
         
-        if (g == c){
+        if (g === c){
             code_numbers[i] = "-";
             num_semi_matches += 1;
             break;
@@ -92,10 +92,10 @@ function play_round(){
     history = load_history();
     if (code_length in history){
         let (num_games, best, average) = history[code_length];
-        console.log("The number of times you have tried codes of length ${code_length} is ${num_games}. Your average and best number of guesses are ${average} and ${best} respectively.");
+        console.log(`The number of times you have tried codes of length ${code_length} is ${num_games}. Your average and best number of guesses are ${average} and ${best} respectively.`);
     }
     else{
-        console.log("This is your first time trying a code of length ${code_length}");
+        console.log(`This is your first time trying a code of length ${code_length}`);
     }
 }
 
