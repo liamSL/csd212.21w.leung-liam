@@ -14,7 +14,7 @@ function is_numeric(c){
 }
 
 function is_string_numeric(s){
-     s = s.split();
+     s = Array.from(s);
     return s.reduce(all_true => s.map(n => is_numeric(s)));
 }
 
@@ -36,8 +36,8 @@ function get_guess(code_length){
 }
 
 function count_matches(code, guess){
-    code_numbers = code.split();
-    guess_numbers = guess.split();
+    code_numbers = Array.from(code);
+    guess_numbers = Array.from(guess);
 
     num_matches = 0;
     num_semi_matches = 0;
