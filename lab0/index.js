@@ -2,7 +2,7 @@ console.log("Hello, World!");
 
 "use strict";
 
-import initPrompt from 'prompt-sync'
+import initPrompt from 'prompt-sync';
 const prompt = initPrompt();
 
 function all_true(a, b){
@@ -14,8 +14,9 @@ function is_numeric(c){
 }
 
 function is_string_numeric(s){
-     s = Array.from(s);
-    return s.reduce(all_true, s.map(n => is_numeric(s)));
+    s = Array.from(s);
+    let map = s.map(n => is_numeric(s));
+    return map.reduce((a,b) => all_true);
 }
 
 function make_code(length){
@@ -44,9 +45,9 @@ function count_matches(code, guess){
 
     for(const i of Array(code_numbers.length).keys()){
         if (code_numbers[i] == guess_numbers[i]){
-             code_numbers[i] = "-";
-             guess_numbers[i] = "-";
-             num_matches += 1;}
+            code_numbers[i] = "-";
+            guess_numbers[i] = "-";
+            num_matches += 1;}
     }
 
     for(g in guess_numbers){
@@ -71,13 +72,13 @@ function count_matches(code, guess){
 }
 
 function get_code_length(){
-    response = prompt("How long do you want the code to be? ");
+    let response = prompt("How long do you want the code to be? ");
 
     if (!(is_string_numeric(response))){
         console.log("You must enter a number");
         return get_code_length();}
 
-    let n = int(response);
+    let n = Number(response);
 
     if (n < 2){
         console.log("You must choose a number greater than 1");
@@ -87,11 +88,11 @@ function get_code_length(){
 }
 
 function play_round(){
-    code_length = get_code_length();
+    let code_length = get_code_length();
 
-    history = load_history();
+    let history = load_history();
     if (code_length in history){
-        let (num_games, best, average) = history[code_length];
+        let [num_games, best, average] = history[code_length];
         console.log(`The number of times you have tried codes of length ${code_length} is ${num_games}. Your average and best number of guesses are ${average} and ${best} respectively.`);
     }
     else{
@@ -105,23 +106,23 @@ function play_round(){
         guess = get_guess(code_length);
 
         if (guess === code){
-            console.log(`You craked the code! Number of guesses: ${num_guesses}`);
+            console.log(`You cracked the code! Number of guesses: ${num_guesses}`);
             update_history(history, code_length, num_guesses);
             return;
         }
         else{
-            (num_matches, num_semi_matches) = count_matches(code, guess);
+            [num_matches, num_semi_matches] = count_matches(code, guess);
             console.log("★"*num_matches + "☆"*num_semi_matches + "-"*(code_length-num_matches-num_semi_matches));
         }
     }
 }
 
 function get_history_path(){
-
+    return "CODEBREAKER.history"
 }
 
 function write_history(){
-
+    history_path = get_history_path
 }
 
 function update_history(){
