@@ -1,9 +1,16 @@
 console.log("Hello, World!");
 
-"use strict";
+"use strict"
 
 import initPrompt from 'prompt-sync';
 const prompt = initPrompt();
+
+import existsSync from "fs";
+
+import {readFileSync, writeFileSync} from "fs";
+
+import {homedir, EOL} from "os";
+import { exception } from 'console';
 
 function all_true(a, b){
     return a && b;
@@ -40,8 +47,8 @@ function count_matches(code, guess){
     code_numbers = Array.from(code);
     guess_numbers = Array.from(guess);
 
-    num_matches = 0;
-    num_semi_matches = 0;
+    let num_matches = 0;
+    let num_semi_matches = 0;
 
     for(const i of Array(code_numbers.length).keys()){
         if (code_numbers[i] == guess_numbers[i]){
@@ -55,7 +62,7 @@ function count_matches(code, guess){
             continue;}
     }
 
-    for(i in Range(length(code_numbers))){
+    for(const i of Array(code_numbers.length).keys()){
         let c = code_numbers[i];
 
         if (c === "-"){
@@ -118,19 +125,72 @@ function play_round(){
 }
 
 function get_history_path(){
-    return "CODEBREAKER.history"
+    return path.join(os.homedir(), "CODEBREAKER.history");
 }
 
-function write_history(){
-    history_path = get_history_path
+function write_history(history){
+    history_path = get_history_path;
+    if (fs.existsSync(history_path)){
+        try{
+            let hist = `${code_length}:${data[0]}:${data[1]}:${data[2]}` + os.EOL;
+            for ({code_length, data} in history){
+                fs.writeFileSync(history_path, hist);
+            }
+        }
+        catch{
+            console.log("Uh oh, the history file couldn't be updated");
+        }
+    }
 }
 
-function update_history(){
+function update_history(history, code_length, num_guesses){
+    if (code_length in history){
+        (num_games, best, average) = history[code_length];
 
+        if (num_guesses < best){
+            console.log(`${num_guesses} is a new best score for codes of length ${code_length}!`);
+            best = num_guesses;
+        }
+        else if(num_guesses < average) {
+            console.log(`${num_guesses} is better than your average score of ${average} for codes of length ${code_length}!`);
+        }
+        let average = ((average*num_games) + num_games)/(num_games + 1);
+        num_games += 1;
+        history[code_length] = (num_games, best, average);
+    }
+        else {
+            history[code_length] = (1, num_guesses, num_guesses);
+        }
+        write_history(history);
+    
 }
 
 function load_history(){
+    history_path = get_history_path();
 
+    history = {};
+
+    if (fs.existsSync(history_path)){
+        try{
+        const content = fs.readFileSync(history_path).toString().split("\n");
+        for (const line in content){
+            (code_length, num_games, best, average) = line.split(":");
+            history[Number(code_length)] = (Number(num_games), Number(best), +(average));
+        }
+    }
+        catch{
+            console.log("Uh oh, your history file could not be read");
+        }
+    }
+    else {
+        try {
+            fs.writeFileSync(history_path, "");
+        }
+        catch {
+            console.log("Uh oh, I couldn't creat a history file for you");
+        }
+    }
+    return history
 }
 
 function print_instructions(){
