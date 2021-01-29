@@ -38,7 +38,7 @@ function get_guess(code_length){
 
     if (guess.length != code_length){
         console.log(`You must enter ${code_length} numbers`);
-        get_guess(code_length);}
+        return get_guess(code_length);}
 
     if (!(is_string_numeric(guess))){
         console.log("The code may contain only numbers");
