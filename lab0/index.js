@@ -140,8 +140,10 @@ function write_history(history){
     let history_path = get_history_path();
     if (existsSync(history_path)){
         try{
-            let hist = `${code_length}:${data[0]}:${data[1]}:${data[2]}` + os.EOL;
-            for (const {key, value} of history.entries()) {
+            let hist = "";
+            for (const [key, value] of history) {
+                let {num_games, best, average} = history.get(key);
+                hist += String(key) + ":" + String(num_games) + ":" + String(best) + ":" + String(average) + os.EOL;
                 writeFileSync(history_path, hist);
             }
         }
@@ -164,10 +166,10 @@ function update_history(history, code_length, num_guesses){
         }
         average = ((average*num_games) + num_games)/(num_games + 1);
         num_games += 1;
-        history[code_length] = (num_games, best, average);
+        history.set(code_length, {num_games: num_games, best: best, average: average});
     }
     else {
-        history[code_length] = (1, num_guesses, num_guesses);
+        history.set(code_length, {num_games: 1, best: num_guesses, average: num_guesses});
     }
     write_history(history);
     
