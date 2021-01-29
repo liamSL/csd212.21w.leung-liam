@@ -182,7 +182,7 @@ function load_history(){
 
     if (existsSync(history_path)){
         try{
-        let content = readFileSync(history_path).toString().split(os.EOL);
+        let content = readFileSync(history_path).toString().trim().split(os.EOL);
         for (let line of content){
             let [code_length, num_games, best, average] = line.split(":");
             let dict = {"num_games": +(num_games), "best": +(best), "average": +(average)};
