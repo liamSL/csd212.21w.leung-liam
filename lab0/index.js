@@ -22,8 +22,8 @@ function is_numeric(c){
 
 function is_string_numeric(s){
     s = Array.from(s);
-    let map = s.map(n => is_numeric(s));
-    return map.reduce((a,b) => all_true);
+    let map = s.map(is_numeric);
+    return map.reduce(all_true);
 }
 
 function make_code(length){
@@ -40,7 +40,7 @@ function get_guess(code_length){
         console.log(`You must enter ${code_length} numbers`);
         get_guess(code_length);}
 
-    if (!is_string_numeric(guess)){
+    if (!(is_string_numeric(guess))){
         console.log("The code may contain only numbers");
         return get_guess(code_length);}
     return guess;
