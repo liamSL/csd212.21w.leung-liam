@@ -188,7 +188,6 @@ function load_history(){
             let dict = {"num_games": +(num_games), "best": +(best), "average": +(average)};
             history.set(+(code_length), dict);
         }
-        console.log(history);
     }
         catch{
             console.log("Uh oh, your history file could not be read");
