@@ -1,5 +1,3 @@
-console.log("Hello, World!");
-
 "use strict"
 
 import initPrompt from 'prompt-sync';
@@ -7,10 +5,9 @@ const prompt = initPrompt();
 
 import path from 'path';
 
-import {readFileSync, writeFileSync, existsSync, openSync} from "fs";
+import {readFileSync, writeFileSync, existsSync} from "fs";
 
 import * as os from "os";
-import { pathToFileURL } from 'url';
 
 function all_true(a, b){
     return a && b;
@@ -29,7 +26,8 @@ function is_string_numeric(s){
 function make_code(length){
     let code = "";
     for (const _ of Array(length).keys()){
-        code += Math.floor(Math.random()*10);}
+        code += Math.floor(Math.random()*10);
+    }
     return code;
 }
 
@@ -38,11 +36,13 @@ function get_guess(code_length){
 
     if (guess.length != code_length){
         console.log(`You must enter ${code_length} numbers`);
-        return get_guess(code_length);}
+        return get_guess(code_length);
+    }
 
     if (!(is_string_numeric(guess))){
         console.log("The code may contain only numbers");
-        return get_guess(code_length);}
+        return get_guess(code_length);
+    }
     return guess;
 }
 
@@ -63,7 +63,8 @@ function count_matches(code, guess){
 
     for(const g of guess_numbers){
         if (g === "-"){
-            continue;}
+            continue;
+        }
 
         for(const i of Array(code_numbers.length).keys()){
             let c = code_numbers[i];
@@ -87,13 +88,15 @@ function get_code_length(){
 
     if (!(is_string_numeric(response))){
         console.log("You must enter a number");
-        return get_code_length();}
+        return get_code_length();
+    }
 
     let code_length = Number(response);
 
     if (code_length < 2){
         console.log("You must choose a number greater than 1 ");
-        return get_code_length();}
+        return get_code_length();
+    }
 
     return code_length;
 }
@@ -143,6 +146,7 @@ function write_history(history){
             let hist = "";
             for (const [key, value] of history) {
                 let {num_games, best, average} = history.get(key);
+                // What you have here works, but the casting
                 hist += String(key) + ":" + String(num_games) + ":" + String(best) + ":" + String(average) + os.EOL;
                 writeFileSync(history_path, hist);
             }
