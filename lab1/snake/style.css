@@ -17,7 +17,6 @@ body {
     height: 32px;
     width: 32px;
     border-radius: 50%;
-
 }
 
 #score-container,
@@ -30,7 +29,7 @@ body {
     display: none;
     position: fixed;
     z-index: 100;
-
+    
     top: 0;
     left: 0;
     right: 0;

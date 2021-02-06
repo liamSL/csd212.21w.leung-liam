@@ -34,9 +34,7 @@ function isPositionEqual(p1, p2) {
 }
 
 const board = {
-    /* TODO : add a property named 'el' that is a reference to the div with id 'gameboard'
-                This will be the DOM element that represents the board in the browser viewport.
-    */
+    el : document.getElementById("gameboard"),
 
     /**
      * Sizes the gameboard so that it takes up the maximum amount of space within the browser viewport
@@ -58,10 +56,10 @@ const board = {
         this.gridWidth = Math.floor(maxPxWidth / BLOCK_SIZE);
         this.gridHeight = Math.floor(maxPxHeight / BLOCK_SIZE);
 
-        /* TODO : Style the board's DOM element, 'el', with the correct width and height 
-                    based on the gridWidth and gridHeight above */
+        this.el.style.width(px(this.gridWidth*BLOCK_SIZE));
+        this.el.style.height(px(this.gridHeight*BLOCK_SIZE));
 
-        /* TODO: Style the board's DOM element, 'el', with a 1/2 BLOCK_SIZE border width */
+        this.el.style.border(px(BLOCK_SIZE/2));
     },
 
     /**
@@ -342,7 +340,7 @@ function createFood(gridPosition) {
  * @param {HTMLElement} el The element to show
  */
 function show(el) {
-    /* TODO : add the class 'show' to the given DOM element, el */
+    el.classList.add('show');
 }
 
 /**
@@ -350,7 +348,7 @@ function show(el) {
  * @param {HTMLElement} el The element to show
  */
 function hide(el) {
-    /* TODO : remove the class 'show' from the given DOM element, el */
+    el.classList.remove('show');
 }
 
 /**
@@ -389,8 +387,8 @@ const game = {
      * Starts a new game
      */
     start : function() {
-        this.reset();
-        /* TODO : use the hide() function above to hide the main menu div */
+        //this.reset();
+        hide(document.getElementById("menu"));
     },
 
     /**
