@@ -56,10 +56,10 @@ const board = {
         this.gridWidth = Math.floor(maxPxWidth / BLOCK_SIZE);
         this.gridHeight = Math.floor(maxPxHeight / BLOCK_SIZE);
 
-        this.el.style.width(px(this.gridWidth*BLOCK_SIZE));
-        this.el.style.height(px(this.gridHeight*BLOCK_SIZE));
+        this.el.style.width = px(this.gridWidth, true);
+        this.el.style.height = px(this.gridHeight, true);
 
-        this.el.style.border(px(BLOCK_SIZE/2));
+        this.el.style.borderWidth = px((BLOCK_SIZE/2)/BLOCK_SIZE, true);
     },
 
     /**
@@ -71,6 +71,7 @@ const board = {
      */
     place : function(el, gridPosition) {
         /* TODO : set the given element's CSS position to the pixel position that corresponds to the given gridPosition */
+        
     },
 
     /**
@@ -78,7 +79,7 @@ const board = {
      * @param {HTMLElement} el The element to add to the board
      */
     add : function(el) {
-        /* TODO : add the given element to the board's DOM element, 'el' */
+        this.el.appendChild(el);
     },
 
     /**
@@ -133,7 +134,12 @@ function createSnakeSegment(gridPosition, direction) {
      * @returns {HTMLElement} The DOM element representing one snake element
      */
     function createSnakeSegmentElement() {
-        /* TODO : create a new snake segment element as per lab instructions */
+        let seg = document.createElement("div");
+        seg.classList.add("snake_segment");
+        seg.style.backgroundColor = DEFAULT_SNAKE_COLOR;
+        seg.style.width = px(1, true);
+        seg.style.height = px(1, true);
+        return seg;
     }
 
     // Return an object with the necessary properties and methods
@@ -297,7 +303,13 @@ function createFood(gridPosition) {
      * @returns {HTMLelement} The DOM element representing food on the game board
      */
     function createFoodElement() {
-        /* TODO : create a new food element as per lab instructions */
+        let eat = document.createElement("div");
+        eat.classList.add('food');
+        eat.style.width = px(1, true);
+        eat.style.height = px(1, true);
+        eat.style.borderRadius = '50%';
+        eat.style.backgroundColor = 'red';
+        return eat;
     }
 
     // Return a JS object with the necessary properties and methods
@@ -387,7 +399,7 @@ const game = {
      * Starts a new game
      */
     start : function() {
-        //this.reset();
+        this.reset();
         hide(document.getElementById("menu"));
     },
 
