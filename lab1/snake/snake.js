@@ -71,7 +71,9 @@ const board = {
      */
     place : function(el, gridPosition) {
         /* TODO : set the given element's CSS position to the pixel position that corresponds to the given gridPosition */
-        
+        el.style.position = relative;
+        el.style.left = x;
+        el.style.top = y;
     },
 
     /**
