@@ -35,7 +35,8 @@ function isPositionEqual(p1, p2) {
 
 const board = {
     el : document.getElementById("gameboard"),
-
+    gW : Math.floor((window.innerWidth - px(2, false))/BLOCK_SIZE),
+    gH : Math.floor((window.innerHeight - px(2, false))/BLOCK_SIZE),
     /**
      * Sizes the gameboard so that it takes up the maximum amount of space within the browser viewport
      * but has width and height dimensions that are multiples of the BLOCK_SIZE
@@ -59,7 +60,7 @@ const board = {
         this.el.style.width = px(this.gridWidth, true);
         this.el.style.height = px(this.gridHeight, true);
 
-        this.el.style.borderWidth = px((BLOCK_SIZE/2)/BLOCK_SIZE, true);
+        this.el.style.borderWidth = px((0.5), true);
     },
 
     /**
@@ -71,9 +72,9 @@ const board = {
      */
     place : function(el, gridPosition) {
         /* TODO : set the given element's CSS position to the pixel position that corresponds to the given gridPosition */
-        el.style.position = relative;
-        el.style.left = x;
-        el.style.top = y;
+        el.style.left = px(gridPosition['x'], true);
+        el.style.top = px(gridPosition['y'], true);
+
     },
 
     /**
@@ -104,7 +105,10 @@ const board = {
      */
     getRandomPosition : function() {
         /* TODO : return a random position inside the game board */
-        return { x: 0, y: 0 };
+        let coords = {x:0, y:0};
+        coords.x = Math.floor(Math.random()*this.gW);
+        coords.y = Math.floor(Math.random()*this.gH);
+        return coords;
     },
 
     /**
@@ -112,7 +116,10 @@ const board = {
      */
     getMidPosition : function() {
         /* TODO : return a grid-aligned position closest to the midpoint of the board */
-        return { x: 0, y: 0 };
+        let coords = {x:0, y:0};
+        coords.x = Math.floor(this.gW/2);
+        coords.y = Math.floor(this.gH/2);
+        return coords;
     },
 
     /**
@@ -249,14 +256,18 @@ function createSnake(gridPosition) {
          * Adds all snake segment DOM elements to the given board
          */
         addTo(board) {
-            /* TODO : use the given board's add() method add all the snake's segments to the board */
+            for (const i of this.segments){
+                board.add(i.el);
+            }
         },
 
         /**
          * Places all the segments of the snake at their current position on the given board
          */
         placeOn : function(board) {
-            /* TODO : use the given board's place() method position all the snake's segments correctly on the board */
+            for (const i of this.segments){
+            board.place(i.el, i.gridPosition);
+            }
         },
 
         /**
@@ -329,14 +340,14 @@ function createFood(gridPosition) {
          * Add a food's DOM element to the board
          */
         addTo : function(board) {
-            /* TODO : use the given board's add() method to add this food's DOM element, 'el' to the board */
+            board.add(this.el);
         },
 
         /**
          * Place a food's DOM element at the food's position on the given board
          */
         placeOn : function(board) {
-            /* TODO : use the given board's place() method to position this food's DOM element, 'el' on the board */
+            board.place(this.el, this.gridPosition);
         },
 
         /**
