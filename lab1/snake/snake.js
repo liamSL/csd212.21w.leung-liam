@@ -34,8 +34,6 @@ function isPositionEqual(p1, p2) {
 
 const board = {
   el: document.getElementById("gameboard"),
-  gW: Math.floor((window.innerWidth - px(2, false)) / BLOCK_SIZE),
-  gH: Math.floor((window.innerHeight - px(2, false)) / BLOCK_SIZE),
   /**
    * Sizes the gameboard so that it takes up the maximum amount of space within the browser viewport
    * but has width and height dimensions that are multiples of the BLOCK_SIZE
@@ -104,8 +102,8 @@ const board = {
   getRandomPosition: function () {
     /* TODO : return a random position inside the game board */
     let coords = { x: 0, y: 0 };
-    coords.x = Math.floor(Math.random() * this.gW);
-    coords.y = Math.floor(Math.random() * (this.gH - 1));
+    coords.x = Math.floor(Math.random() * (Math.floor((window.innerWidth - px(2, false)) / BLOCK_SIZE)));
+    coords.y = Math.floor(Math.random() * ((Math.floor((window.innerHeight - px(2, false)) / BLOCK_SIZE)) - 1));
     return coords;
   },
 
@@ -115,8 +113,8 @@ const board = {
   getMidPosition: function () {
     /* TODO : return a grid-aligned position closest to the midpoint of the board */
     let coords = { x: 0, y: 0 };
-    coords.x = Math.floor(this.gW / 2);
-    coords.y = Math.floor(this.gH / 2);
+    coords.x = Math.floor((Math.floor((window.innerWidth - px(2, false)) / BLOCK_SIZE)) / 2);
+    coords.y = Math.floor((Math.floor((window.innerHeight - px(2, false)) / BLOCK_SIZE)) / 2);
     return coords;
   },
 
@@ -126,8 +124,8 @@ const board = {
    */
   contains: function (point) {
     if (
-      (0 <= point.x) & (point.x < this.gW) &&
-      (0 <= point.y) & (point.y < this.gH - 1)
+      (0 <= point.x) & (point.x < (Math.floor((window.innerWidth - px(2, false)) / BLOCK_SIZE))) &&
+      (0 <= point.y) & (point.y < (Math.floor((window.innerHeight - px(2, false)) / BLOCK_SIZE)) - 1)
     ) {
       return true;
     } else {
@@ -457,6 +455,7 @@ const game = {
    */
   reset: function () {
     hide(document.getElementById("game-over"));
+    
 
     this.board.clear();
     this.board.resize();
@@ -470,5 +469,6 @@ const game = {
 
     this.snake.placeOn(this.board);
     this.food.placeOn(this.board);
+    updateScoreElement(this.snake.score);
   },
 };
