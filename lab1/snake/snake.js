@@ -94,7 +94,6 @@ const board = {
    */
   clear: function () {
     while (this.el.hasChildNodes()) {
-      console.log(this.el.hasChildNodes());
       this.el.removeChild(this.el.lastChild);
     }
   },
