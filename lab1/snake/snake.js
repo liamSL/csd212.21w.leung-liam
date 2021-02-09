@@ -71,7 +71,6 @@ const board = {
      * @param gridPosition The position (an object of the form {x,y}) on the gameboard grid at which to place the given element
      */
     place : function(el, gridPosition) {
-        /* TODO : set the given element's CSS position to the pixel position that corresponds to the given gridPosition */
         el.style.left = px(gridPosition['x'], true);
         el.style.top = px(gridPosition['y'], true);
 
@@ -90,14 +89,17 @@ const board = {
      * @param {HTMLElement} el The element to remove from the board
      */
     remove : function(el) {
-        /* TODO : remove the given element from the board's DOM element, 'el' */
+        this.el.removeChild(el);
     },
 
     /**
-     * Removes all DOM elements from the game boad
+     * Removes all DOM elements from the game board
      */
     clear : function() {
-        /* TODO : remove all elements from the board's DOM element, 'el' */
+        while (this.el.hasChildNodes()){
+            console.log(this.el.hasChildNodes());
+            this.el.removeChild(this.el.lastChild);
+        }
     },
 
     /**
@@ -127,8 +129,12 @@ const board = {
      * @param {object} point An object of the form {x,y} representing a grid position
      */
     contains : function(point) {
-        /* TODO : return true only if the given point is inside the board's grid width and height */
-        return true;
+        if (0 <= point.x & point.x < this.gW && 0 <= point.y & point.y < this.gH){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
 
@@ -144,7 +150,7 @@ function createSnakeSegment(gridPosition, direction) {
      */
     function createSnakeSegmentElement() {
         let seg = document.createElement("div");
-        seg.classList.add("snake_segment");
+        seg.classList.add("snake-segment");
         seg.style.backgroundColor = DEFAULT_SNAKE_COLOR;
         seg.style.width = px(1, true);
         seg.style.height = px(1, true);
@@ -274,7 +280,9 @@ function createSnake(gridPosition) {
          * 'Kills' the snake by making each of its segments transparent
          */
         kill : function() {
-            /* TODO : Set opacity of each snake segment to fully transparent */
+            for (const i of this.segments){
+                i.el.style.opacity = 0;
+            }
         },
 
         /**
@@ -290,7 +298,15 @@ function createSnake(gridPosition) {
          * @param {object} position An object of the form {x,y} representing the position to check
          */
         isOnPosition : function(position) {
-            /* TODO : return true if any segment of the snake is on the given grid position */
+        
+            for (const i of this.segments){
+                if(i.gridPosition.x == position.x && i.gridPosition.y == position.y){
+                    return true;
+                }
+                else{
+                    continue;
+                }
+            }
             return false;
         },
 
@@ -299,8 +315,12 @@ function createSnake(gridPosition) {
          * @param {object} position An object of the form {x,y} representing the position to check
          */
         isHeadOnPosition : function(position) {
-            /* TODO: return true if the snake's head is on the given position */
-            return false;
+            if (this.getHead().gridPosition.x === position.x && this.getHead().gridPosition.y === position.y){
+                return true;
+            }
+            else{
+                return false;
+            }
         },
 
     }
@@ -354,7 +374,7 @@ function createFood(gridPosition) {
          * Removes the food DOM element from the given board
          */
         removeFrom : function(board) {
-            /* TODO : use the given board's remove() method to remove this food's DOM element from the board */
+            board.remove(this.el);
         }
 
     };
@@ -380,7 +400,8 @@ function hide(el) {
  * Update the score element's text to reflect the current
  */
 function updateScoreElement(score) {
-    /* TODO : set the content of the <span> with id 'score' to the given score value */
+    let sc = document.getElementById("score");
+    sc.innerHTML = score;
 }
 
 // An object that keeps track of the overall game state
@@ -389,8 +410,8 @@ const game = {
     // Properties:
 
     board : board,
-    snake : null,
-    food : null,
+    snake : createSnake,
+    food : createFood,
 
     // Methods:
         
@@ -422,7 +443,7 @@ const game = {
     update : function() {
         
         if ( this.isOver() ) {
-            /* TODO : use the show() function above to show the 'game-over' div */
+            show(document.getElementById("game-over"));
             this.snake.kill();
         } else {
             this.snake.slither();
@@ -451,7 +472,7 @@ const game = {
      */
     reset : function() {
 
-        /* TODO : use the hide() function above to hide the 'game-over' element */
+        hide(document.getElementById("game-over"));
 
         this.board.clear();
         this.board.resize();
