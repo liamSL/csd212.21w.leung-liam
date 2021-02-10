@@ -103,7 +103,7 @@ const board = {
     /* TODO : return a random position inside the game board */
     let coords = { x: 0, y: 0 };
     coords.x = Math.floor(Math.random() * (Math.floor((window.innerWidth - px(2, false)) / BLOCK_SIZE)));
-    coords.y = Math.floor(Math.random() * ((Math.floor((window.innerHeight - px(2, false)) / BLOCK_SIZE)) - 1));
+    coords.y = Math.floor(Math.random() * ((Math.floor((window.innerHeight - px(2, false)) / BLOCK_SIZE))));
     return coords;
   },
 
@@ -125,7 +125,7 @@ const board = {
   contains: function (point) {
     if (
       (0 <= point.x) & (point.x < (Math.floor((window.innerWidth - px(2, false)) / BLOCK_SIZE))) &&
-      (0 <= point.y) & (point.y < (Math.floor((window.innerHeight - px(2, false)) / BLOCK_SIZE)) - 1)
+      (0 <= point.y) & (point.y < (Math.floor((window.innerHeight - px(2, false)) / BLOCK_SIZE)))
     ) {
       return true;
     } else {
