@@ -102,8 +102,8 @@ const board = {
   getRandomPosition: function () {
     /* TODO : return a random position inside the game board */
     let coords = { x: 0, y: 0 };
-    coords.x = Math.floor(Math.random() * (Math.floor((window.innerWidth - px(2, false)) / BLOCK_SIZE)));
-    coords.y = Math.floor(Math.random() * ((Math.floor((window.innerHeight - px(2, false)) / BLOCK_SIZE))));
+    coords.x = Math.floor(Math.random() * this.gridWidth);
+    coords.y = Math.floor(Math.random() * this.gridHeight);
     return coords;
   },
 
@@ -113,8 +113,8 @@ const board = {
   getMidPosition: function () {
     /* TODO : return a grid-aligned position closest to the midpoint of the board */
     let coords = { x: 0, y: 0 };
-    coords.x = Math.floor((Math.floor((window.innerWidth - px(2, false)) / BLOCK_SIZE)) / 2);
-    coords.y = Math.floor((Math.floor((window.innerHeight - px(2, false)) / BLOCK_SIZE)) / 2);
+    coords.x = Math.floor(this.gridWidth / 2);
+    coords.y = Math.floor(this.gridHeight / 2);
     return coords;
   },
 
@@ -123,10 +123,8 @@ const board = {
    * @param {object} point An object of the form {x,y} representing a grid position
    */
   contains: function (point) {
-    if (
-      (0 <= point.x) & (point.x < (Math.floor((window.innerWidth - px(2, false)) / BLOCK_SIZE))) &&
-      (0 <= point.y) & (point.y < (Math.floor((window.innerHeight - px(2, false)) / BLOCK_SIZE)))
-    ) {
+    if (0 <= point.x && point.x < this.gridWidth && 0 <= point.y && point.y < this.gridHeight)
+      {
       return true;
     } else {
       return false;
