@@ -289,9 +289,7 @@ function createSnake(gridPosition) {
       for (const i of this.segments) {
         if (i.gridPosition.x == position.x && i.gridPosition.y == position.y) {
           return true;
-        } else {
-          continue;
-        }
+        } 
       }
       return false;
     },
@@ -301,14 +299,9 @@ function createSnake(gridPosition) {
      * @param {object} position An object of the form {x,y} representing the position to check
      */
     isHeadOnPosition: function (position) {
-      if (
-        this.getHead().gridPosition.x === position.x &&
+      return this.getHead().gridPosition.x === position.x &&
         this.getHead().gridPosition.y === position.y
-      ) {
-        return true;
-      } else {
-        return false;
-      }
+      ;
     },
   };
 }
