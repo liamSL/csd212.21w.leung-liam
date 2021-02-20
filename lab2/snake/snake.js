@@ -615,6 +615,6 @@ function handleKeyDown(event) {
 }
 
 /* TODO: prevent the user from accidentally closing the window/tab if they are in the middle of a game */
-
+    window.addEventListener("beforeunload", e => {if(!(document.getElementById("menu").classList.contains("show"))){e.returnValue = ""}});
 /* TODO: show the main menu if the user clicks anywhere on the game after the game is over */
     document.addEventListener("click", e => {if(document.getElementById("game-over").classList.contains("show")&& !(e.target.classList.contains("snake-segment"))){show(document.getElementById("menu"))}});
