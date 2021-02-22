@@ -617,6 +617,7 @@ function handleKeyDown(event) {
 /* TODO: prevent the user from accidentally closing the window/tab if they are in the middle of a game */
 window.addEventListener("beforeunload", e => {
     if(!(document.getElementById("menu").classList.contains("show"))){
+        e.preventDefault();
         e.returnValue = ""
     }
 });
