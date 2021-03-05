@@ -147,7 +147,7 @@ function createSnakeSegment(gridPosition, direction) {
         segmentEl.className = 'snake-segment';
 
         // TODO: use the settings object to set the snake color
-        segmentEl.style.backgroundColor = DEFAULT_SNAKE_COLOR;   
+        segmentEl.style.backgroundColor = settings.snakeColor();   
         segmentEl.style.width = segmentEl.style.height = px(1);
         segmentEl.setAttribute('data-direction', direction);
 
@@ -603,22 +603,36 @@ const game = {
 const settings = {
     isDebugModeOn : function() {
         // TODO: return true if the debug mode checkbox is checked, false otherwise
+        if (document.getElementById('debug-mode-on').checked){
+            return true;
+        }
+        else {
+            return false;
+        }
     },
 
     snakeColor : function() {
         // TODO: return the Snake Color selected by the user
+        let color = document.getElementById('snake-color').value;
+        return color;
     },
 
     blockSize : function() {
         // TODO: return the Block Size selected by the user
+        let block = document.getElementById('block-size').value;
+        return block;
     },
 
     snakeType : function(getValue) {
         // TODO: return the Type selected by the user
+        let type = document.getElementById('snake-type').value;
+        return type;
     },
 
     snakeName : function() {
         // TODO: return the Name entered by the user
+        let name = document.getElementById('snake-name').value;
+        return name;
     }
 }
 
@@ -680,8 +694,7 @@ function init() {
             event.preventDefault();
             event.returnValue = "You are in the middle of a game!  Are you sure you want to leave?";
         }
-        
-    });
+    })
     
     document.body.addEventListener('click', (event) => {
         if ( game.isOver() && ! event.target.classList.contains('snake-segment') ) { 
@@ -690,13 +703,22 @@ function init() {
     });
     
     // TODO: Add an event handler to the <form> element that prevents the form from actually submitting
-
+    document.addEventListener('submit', e => {
+        e.preventDefault(); 
+        game.start();
+    });
     // TODO: Set the debug mode checkbox to be checked if the name 'manual' is in the query string
-
+    if(location.search.includes('manual')){
+    document.getElementById('debug-mode-on').checked = true;
+    };
     // TODO: Set the snake color form control to be the DEFAULT_SNAKE_COLOR
-
+    document.getElementById('snake-color').value = DEFAULT_SNAKE_COLOR;
     // TODO: Update BLOCK_SIZE AND the size of the block-size-preview element whenever the user moves the Block Size slider
-
+    document.getElementById('block-size').addEventListener('change', e => {
+        BLOCK_SIZE = settings.blockSize();
+        document.getElementById('block-size-preview').style.width = BLOCK_SIZE + 'px';
+        document.getElementById('block-size-preview').style.height = BLOCK_SIZE + 'px';
+    });
     // TODO: Change the Name input's placeholder whenever the Type changes
 
     // TODO: Set the Type field so that NO item is selected by default
