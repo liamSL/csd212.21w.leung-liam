@@ -660,28 +660,28 @@ function validateName() {
         const startLetter = type[0];
 
         // TODO: Change the regular expression pattern so that it matches the type's start letter at the START of the name
-        let pattern = / /;
+        let pattern = `^` + startLetter+`.*`;
         let re = new RegExp(pattern);
         if ( ! re.test(name) ) {
             validationMessage += `${type} names must start with '${startLetter}'. `;
         }
 
         // TODO: Change the regular expression pattern so that it matches spaces followed by anything other than '-' or the first letter of a hiss corresponding to the type
-        pattern = `TODO`;
-        re = new RegExp(pattern);
+        pattern = `\\s$|\\s[^-`+startLetter+`]`;
+        re = new RegExp(pattern, "i");
         if ( re.test(name) ) {
             validationMessage += `Spaces in ${type} names must be followed by either '-' or '${startLetter}'. `;
         }
 
         // TODO: Change the regular expression pattern so that it matches INVALID hisses corresponding to the type
-        pattern = `TODO`;
-        re = new RegExp(pattern);
+        pattern = `(^|\\s)(`+startLetter+`($|\\s)|`+startLetter+`s{1}($|\\s)|`+startLetter+`s+[^s\\s])`;
+        re = new RegExp(pattern, "ig");
         if ( re.test(name) ) {
             validationMessage += `${type} hisses must start with a '${startLetter}' followed by at least two upper or lower case esses. `;
         }
 
         // TODO: Change the regular expression pattern so that it matches INVALID tongue flicks
-        pattern = `TODO`;
+        pattern = `-$|-[^-<]|<[^\\s]`;
         re = new RegExp(pattern);
         if ( re.test(name) ) {
             validationMessage += `Tongue flicks must start with at least one hyphen and end with one '<'. `
@@ -735,7 +735,7 @@ function init() {
     // TODO: Set the Type field so that NO item is selected by default
     document.getElementById('snake-type').selectedIndex = -1;
     // TODO: Any time the Name changes, automatically select the Type based on the first letter of the name
-    document.getElementById('snake-name').onchange = e => {
+    document.getElementById('snake-name').oninput = e => {
         if (!document.getElementById('snake-name').value == ""*document.getElementById('snake-name').value.length){
             switch (document.getElementById('snake-name').value.slice(0, 1)){
                 case 'S':
@@ -761,13 +761,15 @@ function init() {
         let valid = 'HKSsT-< ';
         if (!valid.includes(e.data)&&e.data !== null){
             sm.value = sm.value.slice(0, sm.value.length-1);
-            validateName();
         }
     }
     // TODO: Validate the Name every time the Type field changes
-    document.getElementById('snake-type').onchange = e => {
-        validateName();
-    }
+   document.getElementById("snake-name").oninput = () => {
+       validateName();
+   }
+   document.getElementById('snake-type').onchange = () => {
+       validateName();
+   }
 }
 
 init();
