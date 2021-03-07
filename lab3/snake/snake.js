@@ -563,9 +563,9 @@ const game = {
         updateGameStats(this.snake.score, this.snake.getSize(), this.snake.speed);
 
         // TODO: Set the snake name in the game UI
-
+        document.getElementById('name').innerHTML = settings.snakeName();
         // TODO: Set the snake type in the game UI
-
+        document.getElementById('type').innerHTML = settings.snakeType(false);
         window.addEventListener('keydown', handleKeyDown);
 
     },
@@ -625,8 +625,14 @@ const settings = {
 
     snakeType : function(getValue) {
         // TODO: return the Type selected by the user
-        let type = document.getElementById('snake-type').value;
-        return type;
+        let type = document.getElementById('snake-type');
+        let opt = type.options[type.selectedIndex];
+        if (getValue){
+            return type.value;
+        }
+        else{
+            return opt.text;
+        }
     },
 
     snakeName : function() {
@@ -646,6 +652,7 @@ function handleKeyDown(event) {
 function validateName() {
     const name = settings.snakeName();
     const type = settings.snakeType(false);
+    console.log(type);
 
     let validationMessage = "";
     
@@ -653,7 +660,7 @@ function validateName() {
         const startLetter = type[0];
 
         // TODO: Change the regular expression pattern so that it matches the type's start letter at the START of the name
-        let pattern = `TODO|.*`;
+        let pattern = / /;
         let re = new RegExp(pattern);
         if ( ! re.test(name) ) {
             validationMessage += `${type} names must start with '${startLetter}'. `;
@@ -683,7 +690,7 @@ function validateName() {
     }
 
     // TODO: set the custom validity message on the Name field
-
+    document.getElementById('snake-name').setCustomValidity(validationMessage);
 }
 
 function init() {
@@ -703,7 +710,7 @@ function init() {
     });
     
     // TODO: Add an event handler to the <form> element that prevents the form from actually submitting
-    document.addEventListener('submit', e => {
+    document.forms[0].addEventListener('submit', e => {
         e.preventDefault(); 
         game.start();
     });
@@ -714,20 +721,53 @@ function init() {
     // TODO: Set the snake color form control to be the DEFAULT_SNAKE_COLOR
     document.getElementById('snake-color').value = DEFAULT_SNAKE_COLOR;
     // TODO: Update BLOCK_SIZE AND the size of the block-size-preview element whenever the user moves the Block Size slider
-    document.getElementById('block-size').addEventListener('change', e => {
+    document.getElementById('block-size').oninput = e => {
         BLOCK_SIZE = settings.blockSize();
         document.getElementById('block-size-preview').style.width = BLOCK_SIZE + 'px';
         document.getElementById('block-size-preview').style.height = BLOCK_SIZE + 'px';
-    });
+    };
     // TODO: Change the Name input's placeholder whenever the Type changes
-
+    document.getElementById('snake-type').addEventListener('change', e => {
+        let t = settings.snakeType(true).toUpperCase();
+        
+        document.getElementById('snake-name').setAttribute('placeholder', t + "ss " + t + "SSsss --<");
+    });
     // TODO: Set the Type field so that NO item is selected by default
-
+    document.getElementById('snake-type').selectedIndex = -1;
     // TODO: Any time the Name changes, automatically select the Type based on the first letter of the name
-
+    document.getElementById('snake-name').onchange = e => {
+        if (!document.getElementById('snake-name').value == ""*document.getElementById('snake-name').value.length){
+            switch (document.getElementById('snake-name').value.slice(0, 1)){
+                case 'S':
+                    document.getElementById('snake-type').selectedIndex = 0;
+                    break;
+                case 'H':
+                    document.getElementById('snake-type').selectedIndex = 1;
+                    break;
+                case 'T':
+                    document.getElementById('snake-type').selectedIndex = 2;
+                    break;
+                case 'K':
+                    document.getElementById('snake-type').selectedIndex = 3;
+                    break;
+                default:
+                    document.getElementById('snake-type').selectedIndex = -1;
+            }
+        }
+    }
     // TODO: Validate the Name on every input to the Name field
-
-    // TODO: Validate teh Name every time the Type field changes
+    document.getElementById('snake-name').oninput = e => {
+        let sm = document.getElementById('snake-name');
+        let valid = 'HKSsT-< ';
+        if (!valid.includes(e.data)&&e.data !== null){
+            sm.value = sm.value.slice(0, sm.value.length-1);
+            validateName();
+        }
+    }
+    // TODO: Validate the Name every time the Type field changes
+    document.getElementById('snake-type').onchange = e => {
+        validateName();
+    }
 }
 
 init();
