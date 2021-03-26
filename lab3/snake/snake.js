@@ -626,6 +626,9 @@ const settings = {
     // TODO: return the Type selected by the user
     let type = document.getElementById("snake-type");
     let opt = type.options[type.selectedIndex];
+
+    if ( ! opt ) { return null; }
+
     if (getValue) {
       return type.value;
     } else {
@@ -650,6 +653,9 @@ function handleKeyDown(event) {
 function validateName() {
   const name = settings.snakeName();
   const type = settings.snakeType(false);
+
+  if ( ! type ) { return; }
+
   console.log(type);
 
   let validationMessage = "";
@@ -658,7 +664,7 @@ function validateName() {
     const startLetter = type[0];
 
     // TODO: Change the regular expression pattern so that it matches the type's start letter at the START of the name
-    let pattern = `^` + startLetter + `.*`;
+    let pattern = `^` + startLetter;
     let re = new RegExp(pattern);
     if (!re.test(name)) {
       validationMessage += `${type} names must start with '${startLetter}'. `;
@@ -745,10 +751,9 @@ function init() {
   // TODO: Set the Type field so that NO item is selected by default
   document.getElementById("snake-type").selectedIndex = -1;
   // TODO: Any time the Name changes, automatically select the Type based on the first letter of the name
-  document.getElementById("snake-name").oninput = (e) => {
+  document.getElementById("snake-name").addEventListener('input', (e) => {
     if (
-      !document.getElementById("snake-name").value ==
-      "" * document.getElementById("snake-name").value.length
+      document.getElementById("snake-name").value.trim() !== ""
     ) {
       switch (document.getElementById("snake-name").value.slice(0, 1)) {
         case "S":
@@ -767,22 +772,22 @@ function init() {
           document.getElementById("snake-type").selectedIndex = -1;
       }
     }
-  };
+  });
   // TODO: Validate the Name on every input to the Name field
-  document.getElementById("snake-name").oninput = (e) => {
+  document.getElementById("snake-name").addEventListener('input', (e) => {
     let sm = document.getElementById("snake-name");
     let valid = "HKSsT-< ";
     if (!valid.includes(e.data) && e.data !== null) {
       sm.value = sm.value.slice(0, sm.value.length - 1);
     }
-  };
+  });
   // TODO: Validate the Name every time the Type field changes
-  document.getElementById("snake-name").oninput = () => {
+  document.getElementById("snake-name").addEventListener('input', () => {
     validateName();
-  };
-  document.getElementById("snake-type").onchange = () => {
+  });
+  document.getElementById("snake-type").addEventListener('input', () => {
     validateName();
-  };
+  });
 }
 
 init();
