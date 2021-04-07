@@ -210,7 +210,7 @@ class SnakeSegment extends PlaceableObject {
      */
     nextPosition() {
         // TODO: Use the direction getter here instead
-        switch( this.getDirection ) {
+        switch( this.direction ) {
             case 'U':
                 return {x: this.gridPosition.x, y: this.gridPosition.y-1};
             case 'D':
@@ -228,7 +228,7 @@ class SnakeSegment extends PlaceableObject {
     /**
      * @return The segment's direction
      */
-    get getDirection() {
+    get direction() {
         return this._direction;
     }
     
@@ -237,7 +237,7 @@ class SnakeSegment extends PlaceableObject {
      * Sets the direction of the segment
      * @param {string} direction One of 'L', 'R', 'U', 'D' (left, right, up, down)
      */
-    set setDirection(direction) {
+    set direction(direction) {
         this._direction = direction;
         this.el.setAttribute('data-direction', direction);
     }
@@ -280,7 +280,7 @@ class Snake {
      */
     setHeadDirection(direction) {
         // TODO: Use the direction setter on SnakeSegments to set the direction
-        this.getHead().setDirection = direction;
+        this.getHead().direction = direction;
     }
             
     /**
@@ -310,15 +310,15 @@ class Snake {
     slither() {
         // nextDir will be the NEW direction of the segment being processed in each iteration of the loop below
         // TODO: Use the direction getter here instead:
-        let nextDir = this.getHead().getDirection;
+        let nextDir = this.getHead().direction;
         for ( let s of this.segments ) {
             // Update the segment's position to its next position
             s.gridPosition = s.nextPosition();
 
             // TODO: Use the direction getter here instead:
-            const oldDir = s.getDirection;  // Remember its current direction so we can use it as the next nextDir
+            const oldDir = s.direction;  // Remember its current direction so we can use it as the next nextDir
             // TODO: Use the diretion setter here instead:
-            s.setDirection = nextDir;       // Update the segment's direction to the nextDir (which was the previous segments direction)
+            s.direction = nextDir;       // Update the segment's direction to the nextDir (which was the previous segments direction)
             nextDir = oldDir;            // Finally, set up nextDir for the next iteration
         }
     }
@@ -391,10 +391,6 @@ class Snake {
 
 // TODO: Implement the HssishSnake class
     class Hssish extends Snake{
-        constructor (gridPosition, color){
-            super(gridPosition, color);
-            this.kind = "Hssish";
-        }
         incrementScore(value){
             console.log(super.score);
             this.score += value + 2;
@@ -402,20 +398,12 @@ class Snake {
     }
 // TODO: Implement the TssishSnake class
     class Tssish extends Snake{
-        constructor (gridPosition, color){
-            super(gridPosition, color);
-            this.kind = "Tssish";
-        }
         incrementSpeed(){
             this.speed *= 1.01;
         }
     }
 // TODO: Implement the KssishSnake class
     class Kssish extends Snake{
-        constructor (gridPosition, color){
-            super(gridPosition, color);
-            this.kind = "Kssish";
-        }
         grow() {
             if (Math.random() > 0.5){
                 super.grow();
