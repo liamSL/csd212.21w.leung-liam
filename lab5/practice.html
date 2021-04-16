@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>practice</title>
+    <script>
+        function showGlassesXHR(){
+            let request = new XMLHttpRequest();
+            request.open('POST', 'https://www.thecocktaildb.com/api/json/v1/1/list.php?g=list');
+            request.onreadystatechange = function () {
+                if (request.readyState === 4){
+                    if (request.status === 200){
+                        const retdata = JSON.parse(request.responseText);
+                        for (const sugg of retdata.drinks){
+                            console.log(sugg.strGlass);
+                            
+                        }
+                    }
+                    else {
+                        alert('error: ' + request.status + ' has occured');
+                    }
+                }
+            };
+            request.send();
+        }
+        function showGlassesPromises(){
+            
+        }
+        function showGlassesAsync(){
+
+        }
+
+    </script>
+</head>
+<body>
+<ul id = 'suggests'></ul>
+</body>
+</html>
