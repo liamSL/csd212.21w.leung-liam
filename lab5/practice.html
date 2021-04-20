@@ -26,10 +26,33 @@
             request.send();
         }
         function showGlassesPromises(){
-            
+            fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?g=list').then(
+                r => {
+                    if (! r.ok){
+                        throw new Error("an error occured.");
+                    }
+                    return r.json();
+                }).then(data => {
+                    for (const sugg of data.drinks){
+                        console.log(sugg.strGlass)
+                    }
+                }).catch(error =>{
+                    console.log(error);
+                });
         }
-        function showGlassesAsync(){
-
+        async function showGlassesAsync(){
+            try{
+                let resp = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?g=list');
+                if (! resp.ok){
+                    throw new Error("an error has occured");
+                }
+                let data = await resp.json();
+                for (const sugg of data.drinks){
+                    console.log(sugg.strGlass);
+                }
+            } catch(error) {
+                console.log(error);
+            }
         }
 
     </script>
