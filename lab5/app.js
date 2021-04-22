@@ -17,11 +17,11 @@ function init(){
             const result = document.createElement('div');
             result.classList.add('result');
             const img = document.createElement('img');
-            img.src = sugg.strDrinkThumb;
+            img.src = sugg.strDrinkThumb + "/preview";
             img.alt = sugg.idDrink;
             img.classList.add('photo');
             result.appendChild(img);
-            const desc = document.createElement('label');
+            const desc = document.createElement('caption');
             desc.textContent = sugg.strDrink;
             desc.classList.add('name');
             result.appendChild(desc);
