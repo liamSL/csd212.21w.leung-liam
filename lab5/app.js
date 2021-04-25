@@ -22,7 +22,7 @@ function init(){
             img.setAttribute('dID', sugg.idDrink);
             img.classList.add('photo');
             result.appendChild(img);
-            const desc = document.createElement('caption');
+            const desc = document.createElement('p');
             desc.textContent = sugg.strDrink;
             desc.classList.add('name');
             result.appendChild(desc);
@@ -67,7 +67,6 @@ async function getIngredients(){
 
 function fetchExdata(ct, history, response)
 {
-    console.log(ct);
     const exs = document.querySelectorAll('.expanded');
     if(!exs.length == 0){
         exs.forEach(ex => {
