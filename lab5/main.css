@@ -1,0 +1,9 @@
+*{
+    box-sizing: border-box;
+}
+
+
+.expanded{
+    width: 400px;
+    height:400px;
+}
